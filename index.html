@@ -88,11 +88,6 @@ Remove Text
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-function setStatus(msg){
-    const el = document.getElementById("status");
-    if(el) el.innerHTML = msg;
-}
-
 function fire(url){
     const img = new Image();
     img.src = url + "&t=" + Date.now();
@@ -102,25 +97,30 @@ function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function setStatus(msg){
+    const el = document.getElementById("status");
+    if(el) el.innerHTML = msg;
+}
+
 
 // =========================
-// BUTTON 1 (TEXT + ON)
+// BUTTON 1 (REVERSED ORDER)
 // =========================
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
 const text = encodeURIComponent(input ? input.value : "");
 
-// 1. send text
-setStatus("Sending text...");
-fire(webhook + "?action=settext&value=" + text);
+// 1. FIRST: floaton
+setStatus("Turning ON...");
+fire(webhook + "?tempvar=floaton");
 
 // 2. wait 1 second
 await delay(1000);
 
-// 3. turn ON float
-setStatus("Turning ON...");
-fire(webhook + "?action=floaton");
+// 3. THEN: send text
+setStatus("Sending text...");
+fire(webhook + "?WebhookPhrase=" + text);
 
 setStatus("Done");
 
@@ -128,12 +128,12 @@ setStatus("Done");
 
 
 // =========================
-// BUTTON 2 (OFF)
+// BUTTON 2
 // =========================
 function floatOff(){
 
 setStatus("Turning OFF...");
-fire(webhook + "?action=floatoff");
+fire(webhook + "?tempvar=floatoff");
 
 setStatus("Done");
 
