@@ -61,6 +61,7 @@ button:hover{
     font-size:15px;
 }
 </style>
+
 </head>
 
 <body>
@@ -112,7 +113,7 @@ try{
 }
 
 
-// ✅ COMBINED BUTTON (TEXT + FLOAT ON)
+// ✅ ONE BUTTON: text → wait → floaton
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
@@ -120,25 +121,25 @@ const text = encodeURIComponent(input ? input.value : "");
 
 // 1. send text
 await sendRequest(
-    webhook + "?WebhookPhrase=" + text
+    webhook + "?WebhookPhrase=" + text + "&t=" + Date.now()
 );
 
-// 2. wait for MacroDroid to update variable
-await delay(1200);
+// 2. wait 1 second
+await delay(1000);
 
-// 3. trigger floaton
+// 3. send floaton
 await sendRequest(
-    webhook + "?tempvar=floaton"
+    webhook + "?tempvar=floaton" + "&t=" + Date.now()
 );
 
 }
 
 
-// ❌ SECOND BUTTON (UNCHANGED)
+// second button
 function floatOff(){
 
 sendRequest(
-    webhook + "?tempvar=floatoff"
+    webhook + "?tempvar=floatoff" + "&t=" + Date.now()
 );
 
 }
