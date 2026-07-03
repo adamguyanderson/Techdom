@@ -93,13 +93,10 @@ function setStatus(msg){
     if(el) el.innerHTML = msg;
 }
 
-// 🔥 independent request (no chaining issues)
+// 🔥 send request (reliable, no fetch chaining issues)
 function fire(url){
-    fetch(url, {
-        method: "GET",
-        mode: "no-cors",
-        cache: "no-store"
-    });
+    const img = new Image();
+    img.src = url + "&t=" + Date.now();
 }
 
 // ⏱ delay helper
@@ -109,23 +106,23 @@ function delay(ms){
 
 
 // =========================
-// BUTTON 1 (COMBINED LOGIC)
+// BUTTON 1 (TEXT + FLOATON)
 // =========================
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
 const text = encodeURIComponent(input ? input.value : "");
 
-// 1. send phrase
+// 1. send text immediately
 setStatus("Sending text...");
-fire(webhook + "?WebhookPhrase=" + text + "&t=" + Date.now());
+fire(webhook + "?WebhookPhrase=" + text);
 
-// 2. wait 1 second
+// 2. wait 1 second (critical timing buffer)
 await delay(1000);
 
 // 3. send floaton
 setStatus("Activating...");
-fire(webhook + "?tempvar=floaton" + "&t=" + Date.now());
+fire(webhook + "?tempvar=floaton");
 
 setStatus("Done");
 
@@ -133,12 +130,12 @@ setStatus("Done");
 
 
 // =========================
-// BUTTON 2
+// BUTTON 2 (FLOAT OFF)
 // =========================
 function floatOff(){
 
 setStatus("Removing...");
-fire(webhook + "?tempvar=floatoff" + "&t=" + Date.now());
+fire(webhook + "?tempvar=floatoff");
 
 setStatus("Done");
 
