@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Techdom Control Panel</title>
- 
+
 <style>
 body{
     background:#1b1b1b;
@@ -61,7 +61,6 @@ button:hover{
     font-size:15px;
 }
 </style>
-
 </head>
 
 <body>
@@ -89,58 +88,59 @@ Remove Text
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
+function setStatus(msg){
+    const el = document.getElementById("status");
+    if(el) el.innerHTML = msg;
+}
+
+// 🔥 independent request (no chaining issues)
+function fire(url){
+    fetch(url, {
+        method: "GET",
+        mode: "no-cors",
+        cache: "no-store"
+    });
+}
+
+// ⏱ delay helper
 function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function sendRequest(url){
 
-const status = document.getElementById("status");
-if(status) status.innerHTML = "Sending...";
-
-try{
-    await fetch(url,{
-        method:"GET",
-        mode:"no-cors"
-    });
-
-    if(status) status.innerHTML = "Command Sent";
-
-}catch(e){
-    if(status) status.innerHTML = "Failed";
-}
-
-}
-
-
-// ✅ ONE BUTTON: text → wait → floaton
+// =========================
+// BUTTON 1 (COMBINED LOGIC)
+// =========================
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
 const text = encodeURIComponent(input ? input.value : "");
 
-// 1. send text
-await sendRequest(
-    webhook + "?WebhookPhrase=" + text + "&t=" + Date.now()
-);
+// 1. send phrase
+setStatus("Sending text...");
+fire(webhook + "?WebhookPhrase=" + text + "&t=" + Date.now());
 
 // 2. wait 1 second
 await delay(1000);
 
 // 3. send floaton
-await sendRequest(
-    webhook + "?tempvar=floaton" + "&t=" + Date.now()
-);
+setStatus("Activating...");
+fire(webhook + "?tempvar=floaton" + "&t=" + Date.now());
+
+setStatus("Done");
 
 }
 
 
-// second button
+// =========================
+// BUTTON 2
+// =========================
 function floatOff(){
 
-sendRequest(
-    webhook + "?tempvar=floatoff" + "&t=" + Date.now()
-);
+setStatus("Removing...");
+fire(webhook + "?tempvar=floatoff" + "&t=" + Date.now());
+
+setStatus("Done");
 
 }
 
