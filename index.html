@@ -7,8 +7,14 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function setStatus(msg) {
+    const el = document.getElementById("status");
+    if (el) el.innerHTML = msg;
+}
+
 async function sendRequest(url, statusText = "Sending...") {
-    document.getElementById("status").innerHTML = statusText;
+
+    setStatus(statusText);
 
     try {
         await fetch(url, {
@@ -16,31 +22,31 @@ async function sendRequest(url, statusText = "Sending...") {
             mode: "no-cors"
         });
 
-        document.getElementById("status").innerHTML = "Command Sent";
+        setStatus("Command Sent");
 
     } catch (e) {
-        document.getElementById("status").innerHTML = "Failed";
+        setStatus("Failed");
     }
 }
 
 
-// BUTTON 1: Display On Device (text + floaton)
+// BUTTON 1: Display On Device (phrase + floaton)
 async function displayOnDevice() {
 
-    const text = encodeURIComponent(
-        document.getElementById("phrase").value
-    );
+    const input = document.getElementById("phrase");
 
-    // send text first
+    const text = encodeURIComponent(input ? input.value : "");
+
+    // send phrase first
     await sendRequest(
         webhook + "?WebhookPhrase=" + text,
         "Sending text..."
     );
 
-    // small delay to ensure MacroDroid updates variable
+    // safety delay so MacroDroid updates variable
     await delay(1200);
 
-    // then trigger floaton
+    // trigger display
     await sendRequest(
         webhook + "?tempvar=floaton",
         "Displaying on device..."
