@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Techdom Control Panel</title>
- 
+
 <style>
 body{
     background:#1b1b1b;
@@ -25,7 +25,7 @@ body{
     border-radius:15px;
     box-shadow:0 0 15px rgba(0,0,0,.4);
 }
- 
+
 h1{
     text-align:center;
     margin-bottom:20px;
@@ -88,11 +88,6 @@ Remove Text
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-function fire(url){
-    const img = new Image();
-    img.src = url + "&t=" + Date.now();
-}
-
 function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -103,24 +98,40 @@ function setStatus(msg){
 }
 
 
+// 🔥 PROPER RELIABLE REQUEST (IMPORTANT FIX)
+async function fire(url){
+
+try {
+    await fetch(url, {
+        method: "GET",
+        mode: "no-cors",
+        cache: "no-store"
+    });
+} catch(e) {
+    console.log("Request failed:", e);
+}
+
+}
+
+
 // =========================
-// BUTTON 1 (REVERSED ORDER)
+// BUTTON 1
 // =========================
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
 const text = encodeURIComponent(input ? input.value : "");
 
-// 1. FIRST: floaton
+// 1. send floaton first
 setStatus("Turning ON...");
-fire(webhook + "?tempvar=floaton");
+await fire(webhook + "?tempvar=floaton");
 
 // 2. wait 1 second
 await delay(1000);
 
-// 3. THEN: send text
+// 3. send text
 setStatus("Sending text...");
-fire(webhook + "?WebhookPhrase=" + text);
+await fire(webhook + "?WebhookPhrase=" + text);
 
 setStatus("Done");
 
@@ -130,10 +141,10 @@ setStatus("Done");
 // =========================
 // BUTTON 2
 // =========================
-function floatOff(){
+async function floatOff(){
 
 setStatus("Turning OFF...");
-fire(webhook + "?tempvar=floatoff");
+await fire(webhook + "?tempvar=floatoff");
 
 setStatus("Done");
 
