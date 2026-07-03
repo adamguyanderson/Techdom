@@ -1,61 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Techdom Control Panel</title>
+
+<style>
+body{
+    background:#1b1b1b;
+    color:white;
+    font-family:Arial,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.container{
+    width:90%;
+    max-width:450px;
+    background:#2b2b2b;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,.4);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    margin-bottom:18px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    margin:8px 0;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+#status{
+    text-align:center;
+    margin-top:15px;
+    font-size:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Techdom Control Panel</h1>
+
+<input id="phrase" type="text" placeholder="Enter text to display">
+
+<button onclick="sendPhrase()">
+Display On Device
+</button>
+
+<button onclick="floatOff()">
+Remove Text
+</button>
+
+<div id="status"></div>
+
+</div>
+
 <script>
 
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-function delay(ms) {
+function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function sendRequest(url) {
-    const status = document.getElementById("status");
-    if (status) status.innerHTML = "Sending...";
+async function sendRequest(url){
 
-    try {
-        await fetch(url, {
-            method: "GET",
-            mode: "no-cors"
-        });
+const status = document.getElementById("status");
+if(status) status.innerHTML = "Sending...";
 
-        if (status) status.innerHTML = "Command Sent";
+try{
+    await fetch(url,{
+        method:"GET",
+        mode:"no-cors"
+    });
 
-    } catch (e) {
-        if (status) status.innerHTML = "Failed";
-    }
+    if(status) status.innerHTML = "Command Sent";
+
+}catch(e){
+    if(status) status.innerHTML = "Failed";
+}
+
 }
 
 
-// ======================
-// BUTTON 1 (COMBINED)
-// ======================
-async function sendPhrase() {
+// ✅ COMBINED BUTTON (TEXT + FLOAT ON)
+async function sendPhrase(){
 
-    const input = document.getElementById("phrase");
-    const text = encodeURIComponent(input ? input.value : "");
+const input = document.getElementById("phrase");
+const text = encodeURIComponent(input ? input.value : "");
 
-    // 1) send text
-    await sendRequest(
-        webhook + "?WebhookPhrase=" + text
-    );
+// 1. send text
+await sendRequest(
+    webhook + "?WebhookPhrase=" + text
+);
 
-    // 2) wait so MacroDroid updates variable
-    await delay(1200);
+// 2. wait for MacroDroid to update variable
+await delay(1200);
 
-    // 3) trigger floaton
-    await sendRequest(
-        webhook + "?tempvar=floaton"
-    );
+// 3. trigger floaton
+await sendRequest(
+    webhook + "?tempvar=floaton"
+);
+
 }
 
 
-// ======================
-// BUTTON 2
-// ======================
-function floatOff() {
+// ❌ SECOND BUTTON (UNCHANGED)
+function floatOff(){
 
-    sendRequest(
-        webhook + "?tempvar=floatoff"
-    );
+sendRequest(
+    webhook + "?tempvar=floatoff"
+);
+
 }
 
 </script>
+
+</body>
+</html>
