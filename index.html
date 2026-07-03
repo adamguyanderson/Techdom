@@ -93,36 +93,34 @@ function setStatus(msg){
     if(el) el.innerHTML = msg;
 }
 
-// 🔥 send request (reliable, no fetch chaining issues)
 function fire(url){
     const img = new Image();
     img.src = url + "&t=" + Date.now();
 }
 
-// ⏱ delay helper
 function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
 // =========================
-// BUTTON 1 (TEXT + FLOATON)
+// BUTTON 1 (TEXT + ON)
 // =========================
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
 const text = encodeURIComponent(input ? input.value : "");
 
-// 1. send text immediately
+// 1. send text
 setStatus("Sending text...");
-fire(webhook + "?WebhookPhrase=" + text);
+fire(webhook + "?action=settext&value=" + text);
 
-// 2. wait 1 second (critical timing buffer)
+// 2. wait 1 second
 await delay(1000);
 
-// 3. send floaton
-setStatus("Activating...");
-fire(webhook + "?tempvar=floaton");
+// 3. turn ON float
+setStatus("Turning ON...");
+fire(webhook + "?action=floaton");
 
 setStatus("Done");
 
@@ -130,12 +128,12 @@ setStatus("Done");
 
 
 // =========================
-// BUTTON 2 (FLOAT OFF)
+// BUTTON 2 (OFF)
 // =========================
 function floatOff(){
 
-setStatus("Removing...");
-fire(webhook + "?tempvar=floatoff");
+setStatus("Turning OFF...");
+fire(webhook + "?action=floatoff");
 
 setStatus("Done");
 
