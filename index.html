@@ -1,64 +1,61 @@
 <script>
 
-    
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-async function sendRequest(url){
-
-document.getElementById("status").innerHTML="Sending...";
-
-try{
-
-await fetch(url,{
-method:"GET",
-mode:"no-cors"
-});
-
-document.getElementById("status").innerHTML="Command Sent";
-
-}catch(e){
-
-document.getElementById("status").innerHTML="Failed";
-
-}
-
-}
-
-function delay(ms){
+function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function sendRequest(url) {
+    const status = document.getElementById("status");
+    if (status) status.innerHTML = "Sending...";
 
-// NEW COMBINED BUTTON (Display On Device)
-async function sendPhrase(){
+    try {
+        await fetch(url, {
+            method: "GET",
+            mode: "no-cors"
+        });
 
-const text =
-encodeURIComponent(document.getElementById("phrase").value);
+        if (status) status.innerHTML = "Command Sent";
 
-// 1. send phrase
-await sendRequest(
-webhook + "?WebhookPhrase=" + text
-);
-
-// 2. wait a moment so MacroDroid updates variable
-await delay(1200);
-
-// 3. trigger floaton
-await sendRequest(
-webhook + "?tempvar=floaton"
-);
-
+    } catch (e) {
+        if (status) status.innerHTML = "Failed";
+    }
 }
 
 
-// KEEP THIS
-function floatOff(){
+// ======================
+// BUTTON 1 (COMBINED)
+// ======================
+async function sendPhrase() {
 
-sendRequest(
-webhook + "?tempvar=floatoff"
-);
+    const input = document.getElementById("phrase");
+    const text = encodeURIComponent(input ? input.value : "");
 
+    // 1) send text
+    await sendRequest(
+        webhook + "?WebhookPhrase=" + text
+    );
+
+    // 2) wait so MacroDroid updates variable
+    await delay(1200);
+
+    // 3) trigger floaton
+    await sendRequest(
+        webhook + "?tempvar=floaton"
+    );
+}
+
+
+// ======================
+// BUTTON 2
+// ======================
+function floatOff() {
+
+    sendRequest(
+        webhook + "?tempvar=floatoff"
+    );
 }
 
 </script>
