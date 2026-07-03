@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Techdom Control</title>
+</head>
+<body>
+
+<h2>Device Control Panel</h2>
+
+<button onclick="send('test_1')">Test 1</button>
+<button onclick="send('test_2')">Test 2</button>
+
+<script>
+const webhookURL = "PASTE_YOUR_MACRODROID_WEBHOOK_HERE";
+
+function send(action) {
+  fetch(webhookURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ action: action })
+  });
+}
+</script>
+
+</body>
+</html>
