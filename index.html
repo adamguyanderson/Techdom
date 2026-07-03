@@ -88,50 +88,35 @@ Remove Text
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-function delay(ms){
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function setStatus(msg){
     const el = document.getElementById("status");
     if(el) el.innerHTML = msg;
 }
 
-
-// 🔥 PROPER RELIABLE REQUEST (IMPORTANT FIX)
 async function fire(url){
-
-try {
     await fetch(url, {
         method: "GET",
         mode: "no-cors",
         cache: "no-store"
     });
-} catch(e) {
-    console.log("Request failed:", e);
-}
-
 }
 
 
 // =========================
-// BUTTON 1
+// BUTTON 1 (TEXT FIRST, THEN FLOATON)
 // =========================
 async function sendPhrase(){
 
 const input = document.getElementById("phrase");
 const text = encodeURIComponent(input ? input.value : "");
 
-// 1. send floaton first
-setStatus("Turning ON...");
-await fire(webhook + "?tempvar=floaton");
-
-// 2. wait 1 second
-await delay(1000);
-
-// 3. send text
+// 1. TEXT FIRST (important change)
 setStatus("Sending text...");
 await fire(webhook + "?WebhookPhrase=" + text);
+
+// 2. IMMEDIATE FOLLOW-UP (no delay)
+setStatus("Turning ON...");
+await fire(webhook + "?tempvar=floaton");
 
 setStatus("Done");
 
