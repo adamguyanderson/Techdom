@@ -3,63 +3,61 @@
 const webhook =
 "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-function delay(ms) {
+async function sendRequest(url){
+
+document.getElementById("status").innerHTML="Sending...";
+
+try{
+
+await fetch(url,{
+method:"GET",
+mode:"no-cors"
+});
+
+document.getElementById("status").innerHTML="Command Sent";
+
+}catch(e){
+
+document.getElementById("status").innerHTML="Failed";
+
+}
+
+}
+
+function delay(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setStatus(msg) {
-    const el = document.getElementById("status");
-    if (el) el.innerHTML = msg;
-}
 
-async function sendRequest(url, statusText = "Sending...") {
+// NEW COMBINED BUTTON (Display On Device)
+async function sendPhrase(){
 
-    setStatus(statusText);
+const text =
+encodeURIComponent(document.getElementById("phrase").value);
 
-    try {
-        await fetch(url, {
-            method: "GET",
-            mode: "no-cors"
-        });
+// 1. send phrase
+await sendRequest(
+webhook + "?WebhookPhrase=" + text
+);
 
-        setStatus("Command Sent");
+// 2. wait a moment so MacroDroid updates variable
+await delay(1200);
 
-    } catch (e) {
-        setStatus("Failed");
-    }
-}
+// 3. trigger floaton
+await sendRequest(
+webhook + "?tempvar=floaton"
+);
 
-
-// BUTTON 1: Display On Device (phrase + floaton)
-async function displayOnDevice() {
-
-    const input = document.getElementById("phrase");
-
-    const text = encodeURIComponent(input ? input.value : "");
-
-    // send phrase first
-    await sendRequest(
-        webhook + "?WebhookPhrase=" + text,
-        "Sending text..."
-    );
-
-    // safety delay so MacroDroid updates variable
-    await delay(1200);
-
-    // trigger display
-    await sendRequest(
-        webhook + "?tempvar=floaton",
-        "Displaying on device..."
-    );
 }
 
 
-// BUTTON 2: Remove Text
-function removeText() {
-    sendRequest(
-        webhook + "?tempvar=floatoff",
-        "Removing text..."
-    );
+// KEEP THIS
+function floatOff(){
+
+sendRequest(
+webhook + "?tempvar=floatoff"
+);
+
 }
 
 </script>
