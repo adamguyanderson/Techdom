@@ -1,116 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Techdom Control Panel</title>
-
-<style>
-body{
-    background:#1b1b1b;
-    color:white;
-    font-family:Arial,sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-}
-
-.container{
-    width:90%;
-    max-width:450px;
-    background:#2b2b2b;
-    padding:25px;
-    border-radius:15px;
-}
-
-h1{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-input{
-    width:100%;
-    padding:14px;
-    font-size:18px;
-    border:none;
-    border-radius:8px;
-    margin-bottom:18px;
-    box-sizing:border-box;
-}
-
-button{
-    width:100%;
-    padding:16px;
-    margin:8px 0;
-    font-size:18px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-button:hover{
-    opacity:0.9;
-}
-
-#status{
-    text-align:center;
-    margin-top:15px;
-    font-size:15px;
-}
-</style>
+<title>Control Panel</title>
 </head>
 
-<body>
+<body style="background:#1b1b1b;color:white;text-align:center;font-family:Arial;">
 
-<div class="container">
+<h2>Control Panel</h2>
 
-<h1>Techdom Control Panel</h1>
+<input id="phrase" placeholder="Text">
 
-<input id="phrase" type="text" placeholder="Enter text">
+<br><br>
 
-<button onclick="displayText()">
-Display On Device
-</button>
-
-<button onclick="hideText()">
-Remove Text
-</button>
-
-<div id="status"></div>
-
-</div>
+<button onclick="send()">Show Text</button>
+<button onclick="speak()">Speak</button>
+<button onclick="off()">Hide</button>
 
 <script>
 
-const webhook =
-"https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
+const url = "https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
 
-function fire(url){
-    fetch(url + "&t=" + Date.now(), {
-        method: "GET",
-        mode: "no-cors",
-        cache: "no-store"
-    });
+function getText(){
+  return encodeURIComponent(document.getElementById("phrase").value);
 }
 
-function displayText(){
-
-const text = encodeURIComponent(
-    document.getElementById("phrase").value
-);
-
-// send display command + text
-fire(webhook + "?tempvar=displaytext&text=" + text);
-
+function send(){
+  fetch(url + "?tempvar=displaytext&text=" + getText(), {mode:"no-cors"});
 }
 
-function hideText(){
+function speak(){
+  fetch(url + "?tempvar=speaktext&text=" + getText(), {mode:"no-cors"});
+}
 
-// send off command
-fire(webhook + "?tempvar=off");
-
+function off(){
+  fetch(url + "?tempvar=off", {mode:"no-cors"});
 }
 
 </script>
