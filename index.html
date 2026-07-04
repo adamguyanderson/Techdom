@@ -124,6 +124,10 @@ placeholder="#">
 # Of Lines
 </button>
 
+<button onclick="endLines()">
+Good-Boy<br>(Stop Lines)
+</button>
+
 </div>
 
 </div>
@@ -208,6 +212,15 @@ encodeURIComponent(document.getElementById("phrase").value);
 fire(
 webhook +
 "?tempvar=opensite&text=" + text
+);
+
+}
+
+function endLines(){
+
+fire(
+webhook +
+"?tempvar=Endlines"
 );
 
 }
