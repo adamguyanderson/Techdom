@@ -106,6 +106,10 @@ Speak
 Remove Text
 </button>
 
+<button onclick="openSite()">
+Webpage Opener
+</button>
+
 </div>
 
 <div class="right">
@@ -192,6 +196,18 @@ webhook +
 "?tempvar=linesremaining" +
 "&text=" + text +
 "&lines_remaining=" + lines
+);
+
+}
+
+function openSite(){
+
+const text =
+encodeURIComponent(document.getElementById("phrase").value);
+
+fire(
+webhook +
+"?tempvar=opensite&text=" + text
 );
 
 }
