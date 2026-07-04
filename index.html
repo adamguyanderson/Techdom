@@ -32,18 +32,18 @@ h1{
     gap:25px;
 }
 
-/* GIVE LEFT PANEL MORE ROOM (fixes squish) */
+/* MORE AGGRESSIVE WIDTH SHIFT */
 .left{
-    flex:3.5;
+    flex:3;
 }
 
-/* RIGHT PANEL SLIGHTLY WIDER + LESS CRAMPED */
 .right{
-    flex:1.2;
+    flex:1.6;              /* BIG increase */
     border-left:2px solid #555;
-    padding-left:25px;
+    padding-left:20px;
 }
 
+/* INPUT */
 input[type=text]{
     width:100%;
     padding:14px;
@@ -60,11 +60,11 @@ input[type=text]{
     font-size:20px;
 }
 
-/* FIX BUTTON TEXT LAYOUT PROPERLY */
+/* BUTTON FIX — FULL CONTROL */
 button{
     width:100%;
-    min-height:70px;         /* more vertical space */
-    padding:16px 12px;
+    min-height:80px;
+    padding:14px 10px;
     margin:8px 0;
     font-size:17px;
 
@@ -73,19 +73,23 @@ button{
     cursor:pointer;
 
     display:flex;
+    flex-direction:column;   /* IMPORTANT */
     align-items:center;
     justify-content:center;
 
     text-align:center;
-    white-space:normal;
-    line-height:1.25;
+    line-height:1.2;
 }
 
-/* PREVENT OVER-BREAKING LIKE "Stop / Lines" SPLIT */
-button br{
-    display:block;
-    content:"";
-    margin-top:2px;
+/* TWO LINE CONTROL */
+button span:first-child{
+    font-size:17px;
+    font-weight:600;
+}
+
+button span:last-child{
+    font-size:14px;
+    opacity:0.9;
 }
 
 button:hover{
@@ -145,7 +149,8 @@ placeholder="#">
 </button>
 
 <button onclick="endLines()">
-Good-Boy<br>(Stop Lines)
+<span>Good-Boy</span>
+<span>(Stop Lines)</span>
 </button>
 
 </div>
