@@ -6,87 +6,123 @@
 <title>Techdom Control Panel</title>
 
 <style>
+/* =========================
+   GLOBAL FOUNDATION
+========================= */
 body{
     margin:0;
-    padding:20px;
-    font-family:Arial,sans-serif;
-    color:#fff;
+    padding:22px;
+    font-family:Arial, sans-serif;
+    color:#f2f2f2;
 
-    /* 🖤 deeper leather + crimson glow base */
+    /* deep industrial chamber background */
     background:
-      radial-gradient(circle at 20% 15%, rgba(255,0,60,0.25), transparent 40%),
-      radial-gradient(circle at 80% 30%, rgba(120,0,0,0.25), transparent 45%),
-      radial-gradient(circle at 50% 90%, rgba(0,0,0,0.9), #000 70%),
+      radial-gradient(circle at 15% 10%, rgba(255,0,50,0.18), transparent 40%),
+      radial-gradient(circle at 85% 30%, rgba(120,0,0,0.15), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(0,0,0,1), #000 70%),
       repeating-linear-gradient(
         45deg,
-        #070707,
-        #070707 8px,
-        #0c0c0c 8px,
-        #0c0c0c 16px
+        #060606,
+        #060606 10px,
+        #0a0a0a 10px,
+        #0a0a0a 20px
       );
-
     min-height:100vh;
 }
 
-/* 🧱 steel + glass dungeon panel */
+/* =========================
+   MAIN PANEL (STEEL + LEATHER HYBRID)
+========================= */
 .container{
     max-width:900px;
     margin:auto;
-    padding:28px;
+    padding:30px;
 
     background:
-      linear-gradient(145deg, rgba(25,0,10,0.92), rgba(8,8,8,0.96));
+      linear-gradient(145deg, rgba(18,18,18,0.96), rgba(8,8,8,0.98));
 
-    border-radius:20px;
+    border-radius:22px;
 
-    border:1px solid rgba(255,0,60,0.25);
+    border:1px solid rgba(255,0,60,0.18);
 
+    /* layered depth */
     box-shadow:
-        0 0 35px rgba(255,0,60,0.25),
-        0 0 80px rgba(255,0,60,0.10),
-        inset 0 0 25px rgba(0,0,0,0.9);
+        0 0 40px rgba(0,0,0,0.9),
+        0 0 80px rgba(255,0,60,0.12),
+        inset 0 0 30px rgba(0,0,0,0.95);
+
+    position:relative;
+    overflow:hidden;
 }
 
-/* 🔥 animated gothic title */
+/* subtle engraved frame lines */
+.container::before{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.05);
+    pointer-events:none;
+}
+
+/* =========================
+   TITLE (ENGRAVED GOTHIC PLATE)
+========================= */
 h1{
     text-align:center;
     margin-bottom:25px;
-    letter-spacing:4px;
 
-    color:#ff002f;
+    letter-spacing:5px;
+    font-weight:700;
+
+    color:#ff002b;
 
     text-shadow:
-        0 0 10px rgba(255,0,60,0.8),
-        0 0 25px rgba(255,0,60,0.4),
-        0 0 50px rgba(255,0,60,0.2);
+        0 0 10px rgba(255,0,60,0.6),
+        0 0 25px rgba(255,0,60,0.25);
 
-    animation:pulseTitle 2.5s infinite ease-in-out;
+    position:relative;
 }
 
-@keyframes pulseTitle{
-    0%,100%{
-        text-shadow:
-            0 0 10px rgba(255,0,60,0.6),
-            0 0 25px rgba(255,0,60,0.3);
-    }
-    50%{
-        text-shadow:
-            0 0 18px rgba(255,0,60,1),
-            0 0 40px rgba(255,0,60,0.6);
-    }
+/* ornamental underline */
+h1::after{
+    content:"";
+    display:block;
+    width:220px;
+    height:2px;
+    margin:12px auto 0;
+
+    background:linear-gradient(
+        to right,
+        transparent,
+        rgba(255,0,60,0.6),
+        transparent
+    );
 }
 
-/* layout */
+/* =========================
+   LAYOUT
+========================= */
 .main{
     display:flex;
     gap:25px;
 }
 
-/* ⛓️ sharper metallic divider */
+/* =========================
+   METAL DIVIDER
+========================= */
 .right{
     flex:1;
     border-left:2px solid transparent;
-    border-image:linear-gradient(to bottom, #888, #111, #ff0033, #111, #888) 1;
+    border-image:linear-gradient(
+        to bottom,
+        #666,
+        #111,
+        rgba(255,0,60,0.6),
+        #111,
+        #666
+    ) 1;
+
     padding-left:25px;
 }
 
@@ -94,64 +130,86 @@ h1{
     flex:3;
 }
 
-/* ✨ inputs upgraded */
+/* =========================
+   INPUTS (EMBOSSED LEATHER)
+========================= */
 input[type=text]{
     width:100%;
-    padding:14px;
+    padding:15px;
     font-size:18px;
 
-    border-radius:12px;
-    border:1px solid rgba(255,0,60,0.2);
+    border-radius:14px;
+    border:1px solid rgba(255,0,60,0.15);
 
     background:
-      linear-gradient(145deg, #0b0b0b, #151515);
+      linear-gradient(145deg, #0b0b0b, #141414);
 
     color:#fff;
 
     outline:none;
 
+    /* engraved depth */
     box-shadow:
         inset 0 0 12px rgba(0,0,0,0.9),
-        inset 0 0 18px rgba(255,0,60,0.12);
+        inset 0 0 18px rgba(255,0,60,0.08);
 
     margin-bottom:18px;
 }
 
 input[type=text]:focus{
-    border-color:#ff0033;
+    border-color:rgba(255,0,60,0.6);
     box-shadow:
-        0 0 12px rgba(255,0,60,0.7),
-        inset 0 0 15px rgba(0,0,0,0.9);
+        0 0 14px rgba(255,0,60,0.5),
+        inset 0 0 18px rgba(0,0,0,0.9);
 }
 
-/* 🔘 ultra glossy leather buttons */
+/* =========================
+   BUTTONS (RIVETED LEATHER PANELS)
+========================= */
 button{
     width:100%;
     padding:16px;
     margin:8px 0;
+
     font-size:18px;
+    font-weight:600;
 
     border:none;
-    border-radius:14px;
+    border-radius:16px;
     cursor:pointer;
 
     color:#fff;
 
     background:
-      linear-gradient(145deg, #2a0008, #0a0a0a 60%, #1a0000);
+      linear-gradient(145deg, #1a0a0a, #0a0a0a 60%, #2a0000);
 
+    /* deep carved look */
     box-shadow:
-        0 8px 18px rgba(0,0,0,0.9),
-        inset 0 0 12px rgba(255,0,60,0.25),
-        inset 0 -2px 8px rgba(0,0,0,0.9);
-
-    transition:0.25s ease;
+        0 10px 20px rgba(0,0,0,0.9),
+        inset 0 1px 0 rgba(255,255,255,0.05),
+        inset 0 -6px 12px rgba(0,0,0,0.8),
+        inset 0 0 10px rgba(255,0,60,0.12);
 
     position:relative;
     overflow:hidden;
+
+    transition:0.25s ease;
 }
 
-/* 🕯️ moving red light sweep */
+/* subtle metallic rivet corners */
+button::after{
+    content:"";
+    position:absolute;
+    top:6px;
+    left:6px;
+    width:8px;
+    height:8px;
+    background:radial-gradient(circle, #888, #111);
+    border-radius:50%;
+    opacity:0.6;
+}
+
+/* moving light sweep */
 button::before{
     content:"";
     position:absolute;
@@ -173,29 +231,34 @@ button:hover::before{
 }
 
 button:hover{
-    transform:translateY(-2px) scale(1.01);
+    transform:translateY(-2px);
 
     box-shadow:
-        0 0 18px rgba(255,0,60,0.6),
-        0 10px 25px rgba(0,0,0,0.95),
-        inset 0 0 14px rgba(255,0,60,0.35);
+        0 0 18px rgba(255,0,60,0.45),
+        0 14px 30px rgba(0,0,0,0.95),
+        inset 0 0 14px rgba(255,0,60,0.2);
 }
 
 button:active{
-    transform:translateY(1px) scale(0.99);
+    transform:translateY(1px);
 }
 
-/* status */
+/* =========================
+   STATUS
+========================= */
 #status{
     text-align:center;
     margin-top:20px;
+
     color:#ff0033;
     font-weight:bold;
 
-    text-shadow:0 0 12px rgba(255,0,60,0.6);
+    text-shadow:0 0 10px rgba(255,0,60,0.5);
 }
 
-/* 📱 mobile */
+/* =========================
+   MOBILE
+========================= */
 @media (max-width:700px){
     .main{
         flex-direction:column;
@@ -203,7 +266,7 @@ button:active{
 
     .right{
         border-left:none;
-        border-top:2px solid rgba(255,0,60,0.3);
+        border-top:2px solid rgba(255,0,60,0.25);
         padding-left:0;
         padding-top:20px;
     }
@@ -223,17 +286,9 @@ button:active{
 
 <input id="phrase" type="text" placeholder="Enter text">
 
-<button onclick="displayText()">
-Display On Device
-</button>
-
-<button onclick="speakText()">
-Speak
-</button>
-
-<button onclick="hideText()">
-Remove Text
-</button>
+<button onclick="displayText()">Display On Device</button>
+<button onclick="speakText()">Speak</button>
+<button onclick="hideText()">Remove Text</button>
 
 </div>
 
@@ -241,9 +296,7 @@ Remove Text
 
 <input id="lines" type="text" maxlength="2" placeholder="#">
 
-<button onclick="setLines()">
-# Of Lines
-</button>
+<button onclick="setLines()"># Of Lines</button>
 
 </div>
 
