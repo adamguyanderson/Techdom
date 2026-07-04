@@ -32,18 +32,21 @@ h1{
     gap:25px;
 }
 
-/* MORE AGGRESSIVE WIDTH SHIFT */
+/* LEFT COLUMN */
 .left{
     flex:3;
 }
 
+/* RIGHT COLUMN */
 .right{
     flex:1.6;
     border-left:2px solid #555;
     padding-left:20px;
+    display:flex;
+    flex-direction:column;
 }
 
-/* INPUT */
+/* INPUTS */
 input[type=text]{
     width:100%;
     padding:14px;
@@ -60,7 +63,7 @@ input[type=text]{
     font-size:20px;
 }
 
-/* BUTTON FIX — FULL CONTROL */
+/* BUTTONS */
 button{
     width:100%;
     min-height:80px;
@@ -81,7 +84,6 @@ button{
     line-height:1.2;
 }
 
-/* TWO LINE CONTROL */
 button span:first-child{
     font-size:17px;
     font-weight:600;
@@ -89,11 +91,17 @@ button span:first-child{
 
 button span:last-child{
     font-size:14px;
-    opacity:0.9;
+    opacity:.9;
 }
 
 button:hover{
     opacity:.9;
+}
+
+/* Spacer equal to exactly one button row */
+.buttonSpacer{
+    flex:1;
+    min-height:0;
 }
 
 #status{
@@ -153,7 +161,7 @@ placeholder="#">
 <span>(Stop Lines)</span>
 </button>
 
-<div style="height:96px;"></div>
+<div class="buttonSpacer"></div>
 
 <button onclick="sayIt()">
 Say
@@ -213,7 +221,8 @@ fire(webhook + "?tempvar=Endlines");
 }
 
 function sayIt(){
-fire(webhook + "?tempvar=sayit");
+const text = encodeURIComponent(document.getElementById("phrase").value);
+fire(webhook + "?tempvar=sayit&text=" + text);
 }
 
 </script>
