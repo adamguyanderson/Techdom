@@ -32,26 +32,32 @@ h1{
     gap:25px;
 }
 
-/* LEFT SIDE */
+/* LEFT */
 .left{
     flex:3;
 }
 
-/* RIGHT SIDE */
+/* RIGHT */
 .right{
     flex:1.6;
     border-left:2px solid #555;
     padding-left:20px;
 }
 
-/* INPUT */
+/* INPUT ROW (NEW) */
+.inputRow{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:18px;
+}
+
 input[type=text]{
     width:100%;
     padding:14px;
     font-size:18px;
     border:none;
     border-radius:8px;
-    margin-bottom:18px;
     box-sizing:border-box;
 }
 
@@ -113,10 +119,19 @@ button:hover{
 
 <div class="left">
 
+<!-- INPUT + CLEAR BUTTON -->
+<div class="inputRow">
+
 <input
 id="phrase"
 type="text"
 placeholder="Enter text">
+
+<button onclick="clearText()" style="min-height:50px; width:120px;">
+Clear
+</button>
+
+</div>
 
 <button onclick="displayText()">
 Display On Device
@@ -134,7 +149,6 @@ Remove Text
 Webpage Opener
 </button>
 
-<!-- NEW WALLPAPER BUTTON -->
 <button onclick="setWallpaper()">
 Wallpaper
 </button>
@@ -182,6 +196,42 @@ fetch(url,{method:"GET",mode:"no-cors"});
 document.getElementById("status").innerHTML="Command Sent";
 }
 
+/* INPUT CLEAR */
+function clearText(){
+document.getElementById("phrase").value = "";
+document.getElementById("status").innerHTML = "Text cleared";
+
+setTimeout(() => {
+document.getElementById("status").innerHTML = "";
+}, 2000);
+}
+
+/* PUNCTUATION RULE SAY BUTTON */
+function sayIt(){
+
+let input = document.getElementById("phrase");
+let text = input.value;
+
+if(/[^\w\s]/.test(text)){
+
+input.value = "";
+
+document.getElementById("status").innerHTML =
+"⚠️ No punctuation allowed. Remove symbols and try again.";
+
+setTimeout(() => {
+document.getElementById("status").innerHTML = "";
+}, 3500);
+
+return;
+}
+
+text = encodeURIComponent(text);
+
+fire(webhook + "?tempvar=sayit&text=" + text);
+}
+
+/* FUNCTIONS */
 function displayText(){
 const text = encodeURIComponent(document.getElementById("phrase").value);
 fire(webhook + "?tempvar=displaytext&text=" + text);
@@ -217,12 +267,6 @@ function endLines(){
 fire(webhook + "?tempvar=Endlines");
 }
 
-function sayIt(){
-const text = encodeURIComponent(document.getElementById("phrase").value);
-fire(webhook + "?tempvar=sayit&text=" + text);
-}
-
-/* NEW WALLPAPER FUNCTION */
 function setWallpaper(){
 const text = encodeURIComponent(document.getElementById("phrase").value);
 fire(webhook + "?tempvar=wallpaper&text=" + text);
