@@ -1,1 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Techdom Control Panel</title>
 
+<style>
+body{
+    margin:0;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    color:#fff;
+
+    /* 🖤 deeper leather + crimson glow base */
+    background:
+      radial-gradient(circle at 20% 15%, rgba(255,0,60,0.25), transparent 40%),
+      radial-gradient(circle at 80% 30%, rgba(120,0,0,0.25), transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(0,0,0,0.9), #000 70%),
+      repeating-linear-gradient(
+        45deg,
+        #070707,
+        #070707 8px,
+        #0c0c0c 8px,
+        #0c0c0c 16px
+      );
+
+    min-height:100vh;
+}
+
+/* 🧱 steel + glass dungeon panel */
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:28px;
+
+    background:
+      linear-gradient(145deg, rgba(25,0,10,0.92), rgba(8,8,8,0.96));
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,0,60,0.25);
+
+    box-shadow:
+        0 0 35px rgba(255,0,60,0.25),
+        0 0 80px rgba(255,0,60,0.10),
+        inset 0 0 25px rgba(0,0,0,0.9);
+}
+
+/* 🔥 animated gothic title */
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    letter-spacing:4px;
+
+    color:#ff002f;
+
+    text-shadow:
+        0 0 10px rgba(255,0,60,0.8),
+        0 0 25px rgba(255,0,60,0.4),
+        0 0 50px rgba(255,0,60,0.2);
+
+    animation:pulseTitle 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseTitle{
+    0%,100%{
+        text-shadow:
+            0 0 10px rgba(255,0,60,0.6),
+            0 0 25px rgba(255,0,60,0.3);
+    }
+    50%{
+        text-shadow:
+            0 0 18px rgba(255,0,60,1),
+            0 0 40px rgba(255,0,60,0.6);
+    }
+}
+
+/* layout */
+.main{
+    display:flex;
+    gap:25px;
+}
+
+/* ⛓️ sharper metallic divider */
+.right{
+    flex:1;
+    border-left:2px solid transparent;
+    border-image:linear-gradient(to bottom, #888, #111, #ff0033, #111, #888) 1;
+    padding-left:25px;
+}
+
+.left{
+    flex:3;
+}
+
+/* ✨ inputs upgraded */
+input[type=text]{
+    width:100%;
+    padding:14px;
+    font-size:18px;
+
+    border-radius:12px;
+    border:1px solid rgba(255,0,60,0.2);
+
+    background:
+      linear-gradient(145deg, #0b0b0b, #151515);
+
+    color:#fff;
+
+    outline:none;
+
+    box-shadow:
+        inset 0 0 12px rgba(0,0,0,0.9),
+        inset 0 0 18px rgba(255,0,60,0.12);
+
+    margin-bottom:18px;
+}
+
+input[type=text]:focus{
+    border-color:#ff0033;
+    box-shadow:
+        0 0 12px rgba(255,0,60,0.7),
+        inset 0 0 15px rgba(0,0,0,0.9);
+}
+
+/* 🔘 ultra glossy leather buttons */
+button{
+    width:100%;
+    padding:16px;
+    margin:8px 0;
+    font-size:18px;
+
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+
+    color:#fff;
+
+    background:
+      linear-gradient(145deg, #2a0008, #0a0a0a 60%, #1a0000);
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,0.9),
+        inset 0 0 12px rgba(255,0,60,0.25),
+        inset 0 -2px 8px rgba(0,0,0,0.9);
+
+    transition:0.25s ease;
+
+    position:relative;
+    overflow:hidden;
+}
+
+/* 🕯️ moving red light sweep */
+button::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-120%;
+    width:120%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,0,60,0.25),
+        transparent
+    );
+    transition:0.6s;
+}
+
+button:hover::before{
+    left:120%;
+}
+
+button:hover{
+    transform:translateY(-2px) scale(1.01);
+
+    box-shadow:
+        0 0 18px rgba(255,0,60,0.6),
+        0 10px 25px rgba(0,0,0,0.95),
+        inset 0 0 14px rgba(255,0,60,0.35);
+}
+
+button:active{
+    transform:translateY(1px) scale(0.99);
+}
+
+/* status */
+#status{
+    text-align:center;
+    margin-top:20px;
+    color:#ff0033;
+    font-weight:bold;
+
+    text-shadow:0 0 12px rgba(255,0,60,0.6);
+}
+
+/* 📱 mobile */
+@media (max-width:700px){
+    .main{
+        flex-direction:column;
+    }
+
+    .right{
+        border-left:none;
+        border-top:2px solid rgba(255,0,60,0.3);
+        padding-left:0;
+        padding-top:20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Techdom Control Panel</h1>
+
+<div class="main">
+
+<div class="left">
+
+<input id="phrase" type="text" placeholder="Enter text">
+
+<button onclick="displayText()">
+Display On Device
+</button>
+
+<button onclick="speakText()">
+Speak
+</button>
+
+<button onclick="hideText()">
+Remove Text
+</button>
+
+</div>
+
+<div class="right">
+
+<input id="lines" type="text" maxlength="2" placeholder="#">
+
+<button onclick="setLines()">
+# Of Lines
+</button>
+
+</div>
+
+</div>
+
+<div id="status"></div>
+
+</div>
+
+<script>
+
+const webhook =
+"https://trigger.macrodroid.com/c4fe6afa-2d60-411b-a512-838356eccec6/techdom";
+
+function fire(url){
+fetch(url,{method:"GET",mode:"no-cors"});
+document.getElementById("status").innerHTML="Command Sent";
+}
+
+function displayText(){
+const text = encodeURIComponent(document.getElementById("phrase").value);
+fire(webhook + "?tempvar=displaytext&text=" + text);
+}
+
+function speakText(){
+const text = encodeURIComponent(document.getElementById("phrase").value);
+fire(webhook + "?tempvar=speaktext&text=" + text);
+}
+
+function hideText(){
+fire(webhook + "?tempvar=off");
+}
+
+function setLines(){
+const text = encodeURIComponent(document.getElementById("phrase").value);
+const lines = encodeURIComponent(document.getElementById("lines").value);
+
+fire(
+webhook +
+"?tempvar=linesremaining" +
+"&text=" + text +
+"&lines_remaining=" + lines
+);
+}
+
+</script>
+
+</body>
+</html>
