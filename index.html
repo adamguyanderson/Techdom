@@ -7,12 +7,79 @@
 
 <style>
 body {
-  background: radial-gradient(circle at top, #0a0a0a 0%, #000 100%);
-  color: #e0e0e0;
-  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 40px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #e0e0e0;
+  background: #050505;
+  overflow-x: hidden;
 }
+
+/* ====== GOTHIC BACKGROUND LAYERS ====== */
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -5;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,0,0,0.15), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(120,0,0,0.12), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(255,0,0,0.06), transparent 60%);
+}
+
+/* Leather noise texture */
+.bg-texture {
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  opacity: 0.08;
+  background-image:
+    repeating-linear-gradient(45deg, #111 0px, #111 2px, #0a0a0a 2px, #0a0a0a 4px),
+    repeating-linear-gradient(-45deg, #111 0px, #111 2px, #0a0a0a 2px, #0a0a0a 4px);
+  mix-blend-mode: overlay;
+}
+
+/* Floating iconography layer */
+.icon-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+/* Common icon style */
+.bg-icon {
+  position: absolute;
+  fill: none;
+  stroke: #ff1a1a;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgba(255,0,0,0.6));
+  opacity: 0.7;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.4; }
+}
+
+.float {
+  animation: float 10s ease-in-out infinite;
+}
+
+.pulse {
+  animation: pulse 4s ease-in-out infinite;
+}
+
+/* ====== MAIN UI (UNCHANGED) ====== */
 
 .container {
   max-width: 900px;
@@ -22,6 +89,8 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
   padding: 30px;
+  position: relative;
+  z-index: 10;
 }
 
 h1 {
@@ -44,9 +113,7 @@ h1 {
   justify-content: center;
 }
 
-.left {
-  flex: 3;
-}
+.left { flex: 3; }
 
 .right {
   flex: 1;
@@ -115,6 +182,50 @@ button:hover {
 
 <body>
 
+<!-- BACKGROUND SYSTEM -->
+<div class="bg-layer"></div>
+<div class="bg-texture"></div>
+
+<div class="icon-bg">
+
+  <!-- Metallic Heart -->
+  <svg class="bg-icon float" style="top:10%;left:10%;width:80px;" viewBox="0 0 24 24">
+    <path d="M12 21s-8-5.5-8-11a4 4 0 0 1 8-2 4 4 0 0 1 8 2c0 5.5-8 11-8 11z"/>
+  </svg>
+
+  <!-- Chain Link -->
+  <svg class="bg-icon pulse" style="top:30%;left:80%;width:90px;" viewBox="0 0 24 24">
+    <path d="M10 13l4-4m-6 8a4 4 0 0 1 0-6l2-2m6 6a4 4 0 0 0 0-6l-2-2"/>
+  </svg>
+
+  <!-- Flame -->
+  <svg class="bg-icon float" style="top:70%;left:15%;width:70px;" viewBox="0 0 24 24">
+    <path d="M12 2s4 4 4 8-4 6-4 6-4-2-4-6 4-8 4-8z"/>
+  </svg>
+
+  <!-- Candle -->
+  <svg class="bg-icon pulse" style="top:65%;left:75%;width:60px;" viewBox="0 0 24 24">
+    <path d="M12 2l2 4h-4l2-4zm-2 6h4v12h-4V8z"/>
+  </svg>
+
+  <!-- Gothic Cross -->
+  <svg class="bg-icon float" style="top:20%;left:50%;width:90px;" viewBox="0 0 24 24">
+    <path d="M10 2h4v6h4v4h-4v10h-4V12H6V8h4z"/>
+  </svg>
+
+  <!-- Neon Circle -->
+  <svg class="bg-icon pulse" style="top:45%;left:40%;width:120px;" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8"/>
+  </svg>
+
+  <!-- Rose -->
+  <svg class="bg-icon float" style="top:80%;left:60%;width:80px;" viewBox="0 0 24 24">
+    <path d="M12 2c3 3 6 3 6 6s-3 6-6 6-6-3-6-6 3-6 6-6z"/>
+  </svg>
+
+</div>
+
+<!-- MAIN UI -->
 <div class="container">
   <h1>Techdom Control Panel</h1>
 
@@ -123,26 +234,23 @@ button:hover {
 
       <input id="phrase" type="text" placeholder="Enter text...">
 
-      <!-- Display On Device (Chain Icon) -->
       <button onclick="displayText()">
         <svg class="icon" viewBox="0 0 24 24">
-          <path d="M10.1 13.9l-1.4 1.4c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l3.5-3.5c1.6-1.6 4.1-1.6 5.7 0l1.4 1.4-2.1 2.1-1.4-1.4c-.6-.6-1.6-.6-2.1 0L5.7 10c-.6.6-.6 1.6 0 2.1s1.6.6 2.1 0l1.4-1.4 2.1 2.2zm3.8-3.8l1.4-1.4c.6-.6 1.6-.6 2.1 0l3.5 3.5c.6.6.6 1.6 0 2.1s-1.6.6-2.1 0l-1.4-1.4-2.1 2.1 1.4 1.4c1.6 1.6 4.1 1.6 5.7 0s1.6-4.1 0-5.7l-3.5-3.5c-1.6-1.6-4.1-1.6-5.7 0l-1.4 1.4 2.1 2.1z"/>
+          <path d="M10.1 13.9l-1.4 1.4c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l3.5-3.5c1.6-1.6 4.1-1.6 5.7 0l1.4 1.4-2.1 2.1-1.4-1.4c-.6-.6-1.6-.6-2.1 0L5.7 10c-.6.6-.6 1.6 0 2.1s1.6.6 2.1 0l1.4-1.4 2.1 2.2z"/>
         </svg>
         Display On Device
       </button>
 
-      <!-- Speak (Lips Icon) -->
       <button onclick="speakText()">
         <svg class="icon" viewBox="0 0 24 24">
-          <path d="M12 4c-4 0-7 3-9 5 2 2 5 5 9 5s7-3 9-5c-2-2-5-5-9-5zm0 8c-2 0-4-1-6-3 2-2 4-3 6-3s4 1 6 3c-2 2-4 3-6 3z"/>
+          <path d="M12 4c-4 0-7 3-9 5 2 2 5 5 9 5s7-3 9-5c-2-2-5-5-9-5z"/>
         </svg>
         Speak
       </button>
 
-      <!-- Remove Text (Flame Icon) -->
       <button onclick="hideText()">
         <svg class="icon" viewBox="0 0 24 24">
-          <path d="M12 2s4 4 4 8-4 6-4 6-4-2-4-6 4-8 4-8zm0 20c-2.2 0-4-1.8-4-4h8c0 2.2-1.8 4-4 4z"/>
+          <path d="M12 2s4 4 4 8-4 6-4 6-4-2-4-6 4-8 4-8z"/>
         </svg>
         Remove Text
       </button>
@@ -153,10 +261,9 @@ button:hover {
 
       <input id="lines" type="text" maxlength="2" placeholder="#">
 
-      <!-- # Of Lines (Candle Icon) -->
       <button onclick="setLines()">
         <svg class="icon" viewBox="0 0 24 24">
-          <path d="M12 2l2 4h-4l2-4zm-2 6h4v12h-4V8zm-1 12h6v2H9v-2z"/>
+          <path d="M12 2l2 4h-4l2-4zm-2 6h4v12h-4V8z"/>
         </svg>
         # Of Lines
       </button>
