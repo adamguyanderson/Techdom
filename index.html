@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Techdom Control Panel</title>
- 
+
 <style>
 body{
     background:#1b1b1b;
@@ -39,7 +39,7 @@ h1{
 .right{
     flex:1;
     border-left:2px solid #555;
-    padding-left:25px;
+    padding-left:35px;
 }
 
 input[type=text]{
@@ -60,12 +60,20 @@ input[type=text]{
 
 button{
     width:100%;
-    padding:16px;
+    min-height:60px;        /* gives buttons real vertical space */
+    padding:14px 10px;
     margin:8px 0;
-    font-size:18px;
+    font-size:16px;
     border:none;
     border-radius:8px;
     cursor:pointer;
+
+    display:flex;           /* key improvement */
+    align-items:center;     /* vertical centering */
+    justify-content:center; /* horizontal centering */
+    text-align:center;
+    white-space:normal;
+    line-height:1.3;        /* better spacing for 2-line buttons */
 }
 
 button:hover{
@@ -153,47 +161,22 @@ document.getElementById("status").innerHTML="Command Sent";
 }
 
 function displayText(){
-
-const text =
-encodeURIComponent(document.getElementById("phrase").value);
-
-fire(
-webhook +
-"?tempvar=displaytext&text=" +
-text
-);
-
+const text = encodeURIComponent(document.getElementById("phrase").value);
+fire(webhook + "?tempvar=displaytext&text=" + text);
 }
 
 function speakText(){
-
-const text =
-encodeURIComponent(document.getElementById("phrase").value);
-
-fire(
-webhook +
-"?tempvar=speaktext&text=" +
-text
-);
-
+const text = encodeURIComponent(document.getElementById("phrase").value);
+fire(webhook + "?tempvar=speaktext&text=" + text);
 }
 
 function hideText(){
-
-fire(
-webhook +
-"?tempvar=off"
-);
-
+fire(webhook + "?tempvar=off");
 }
 
 function setLines(){
-
-const text =
-encodeURIComponent(document.getElementById("phrase").value);
-
-const lines =
-encodeURIComponent(document.getElementById("lines").value);
+const text = encodeURIComponent(document.getElementById("phrase").value);
+const lines = encodeURIComponent(document.getElementById("lines").value);
 
 fire(
 webhook +
@@ -201,28 +184,15 @@ webhook +
 "&text=" + text +
 "&lines_remaining=" + lines
 );
-
 }
 
 function openSite(){
-
-const text =
-encodeURIComponent(document.getElementById("phrase").value);
-
-fire(
-webhook +
-"?tempvar=opensite&text=" + text
-);
-
+const text = encodeURIComponent(document.getElementById("phrase").value);
+fire(webhook + "?tempvar=opensite&text=" + text);
 }
 
 function endLines(){
-
-fire(
-webhook +
-"?tempvar=Endlines"
-);
-
+fire(webhook + "?tempvar=Endlines");
 }
 
 </script>
