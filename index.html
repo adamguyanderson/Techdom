@@ -9,7 +9,7 @@
 body{
 margin:0;
 padding:14px;
-background:#1b1b1b;
+background:#2B0F1E;
 color:#fff;
 font-family:Arial,sans-serif;
 }
@@ -17,15 +17,19 @@ font-family:Arial,sans-serif;
 .container{
 max-width:900px;
 margin:auto;
-background:#2b2b2b;
+background:rgba(255,79,163,0.08);
 padding:14px;
 border-radius:12px;
+border:1px solid rgba(0,229,255,0.25);
+box-shadow:0 0 18px rgba(255,79,163,0.15);
 }
 
 h1{
 text-align:center;
 margin:8px 0 14px;
 font-size:20px;
+color:#FF4FA3;
+text-shadow:0 0 10px rgba(255,79,163,0.35);
 }
 
 .top{
@@ -37,28 +41,39 @@ margin-bottom:10px;
 #phrase{
 flex:1;
 padding:12px;
-border:none;
+border:1px solid rgba(0,229,255,0.35);
 border-radius:8px;
-background:#444;
+background:rgba(0,0,0,0.35);
 color:#fff;
 font-size:15px;
+outline:none;
 }
 
-#phrase::placeholder{color:#bbb;}
+#phrase::placeholder{color:rgba(255,255,255,0.6);}
 
 button{
-background:#555;
+background:linear-gradient(135deg,#FF4FA3,#00E5FF);
 border:none;
 border-radius:8px;
-color:#fff;
+color:#2B0F1E;
 padding:10px;
 font-size:13px;
 cursor:pointer;
 line-height:1.15;
 white-space:pre-line;
+font-weight:bold;
+box-shadow:0 0 10px rgba(0,229,255,0.15);
+transition:transform 0.1s ease, box-shadow 0.2s ease;
 }
 
-button:active{opacity:.8;}
+button:hover{
+box-shadow:0 0 16px rgba(255,79,163,0.35);
+}
+
+button:active{
+transform:scale(0.97);
+opacity:.9;
+}
 
 .grid{
 display:grid;
@@ -74,18 +89,19 @@ top:0;
 bottom:0;
 left:50%;
 width:1px;
-background:#555;
+background:linear-gradient(#FF4FA3,#00E5FF);
 transform:translateX(-0.5px);
+opacity:0.5;
 }
 
 .box{
-border:1px solid #555;
+border:1px solid rgba(0,229,255,0.25);
 border-radius:10px;
 padding:10px;
 display:flex;
 flex-direction:column;
 gap:8px;
-background:#303030;
+background:rgba(0,0,0,0.25);
 }
 
 .row{
@@ -97,31 +113,34 @@ align-items:center;
 .small{
 width:60px;
 padding:10px;
-border:none;
+border:1px solid rgba(255,79,163,0.4);
 border-radius:8px;
-background:#444;
+background:rgba(0,0,0,0.35);
 color:#fff;
 text-align:center;
 }
 
 .hint{
 font-size:11px;
-opacity:.75;
+opacity:.8;
 line-height:1.3;
+color:#00E5FF;
 }
 
 hr{
 border:0;
-border-top:1px solid #555;
+border-top:1px solid rgba(0,229,255,0.25);
 margin:10px 0;
 }
 
 .status{
 text-align:center;
 font-size:12px;
-opacity:.7;
+opacity:.85;
 margin-top:8px;
+color:#FF4FA3;
 }
+
 </style>
 </head>
 
